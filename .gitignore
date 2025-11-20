@@ -16,3 +16,5 @@ build/
 # Entornos
 .env
 .env.*
+
+backend/src/main/resources/application.properties
