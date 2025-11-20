@@ -1,0 +1,39 @@
+﻿<section class="carga-hub">
+  <header class="carga-hub__header">
+    <h2>Carga de planos</h2>
+    <p>Selecciona el submódulo para cargar o visualizar información.</p>
+  </header>
+
+  <div class="grid">
+    <article class="card">
+      <h3>Carga de pagos</h3>
+      <p>Consume API remota y aprueba por día/voucher.</p>
+      <button type="button" (click)="abrir('pagos-api')">Abrir</button>
+    </article>
+    <article class="card">
+      <h3>Carga de pagos cápita</h3>
+      <p>Sube archivo de pagos cápita.</p>
+      <button type="button" (click)="abrir('pagos-capita')">Abrir</button>
+    </article>
+    <article class="card">
+      <h3>Carga correcciones pagos</h3>
+      <p>Sube archivo de correcciones.</p>
+      <button type="button" (click)="abrir('correcciones-pagos')">Abrir</button>
+    </article>
+    <article class="card">
+      <h3>Carga correcciones pagos cápita</h3>
+      <p>Sube archivo de correcciones cápita.</p>
+      <button type="button" (click)="abrir('correcciones-pagos-capita')">Abrir</button>
+    </article>
+    <article class="card">
+      <h3>Carga pagos traza</h3>
+      <p>Sube archivo de traza de pagos.</p>
+      <button type="button" (click)="abrir('pagos-traza')">Abrir</button>
+    </article>
+    <article class="card">
+      <h3>Carga radicación cápita</h3>
+      <p>Reemplaza completamente la tabla radicación cápita.</p>
+      <button type="button" (click)="abrir('radicacion-capita')">Abrir</button>
+    </article>
+  </div>
+</section>

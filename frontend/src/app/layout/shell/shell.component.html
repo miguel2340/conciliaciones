@@ -1,0 +1,40 @@
+<div class="shell">
+  <aside class="sidebar">
+    <div class="sidebar__brand">
+      <span class="sidebar__logo">PyR</span>
+      <div class="sidebar__title">
+        <strong>Pagos y Radicación</strong>
+        <small>Portal operativo</small>
+        <strong>fecha radicacion:</strong>
+        <strong>07-10-25</strong>
+      </div>
+    </div>
+
+    <nav class="sidebar__nav">
+      <ng-container *ngFor="let item of menuItems">
+        <a *ngIf="!item.adminOnly || authService.isAdmin()"
+          [routerLink]="item.path"
+          routerLinkActive="active"
+          [class.disabled]="item.comingSoon">
+          <span>{{ item.label }}</span>
+          <small *ngIf="item.description">{{ item.description }}</small>
+          <span *ngIf="item.comingSoon" class="badge">Próximamente</span>
+        </a>
+      </ng-container>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <header class="content__header">
+      <div>
+        <h1>Gestión de Pagos y Radicación</h1>
+        <p>Selecciona una opción del menú para comenzar.</p>
+      </div>
+      <button type="button" class="logout" (click)="logout()">Cerrar sesión</button>
+    </header>
+
+    <section class="content__body">
+      <router-outlet></router-outlet>
+    </section>
+  </main>
+</div>

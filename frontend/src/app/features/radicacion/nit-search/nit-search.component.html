@@ -1,0 +1,64 @@
+<section class="nit-search">
+  <header class="nit-search__header">
+    <div>
+      <h2>Buscar reporte por NIT</h2>
+      <p>Consulta la radicación consolidada, pagina los resultados y exporta los datos en TXT delimitado por barras verticales.</p>
+    </div>
+  </header>
+
+  <form class="nit-search__form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <label class="field">
+      <span>NIT</span>
+      <input type="text" formControlName="nit" placeholder="Ej. 901234567" />
+      <small class="error" *ngIf="nitControl.invalid && nitControl.touched">Ingresa al menos 4 caracteres.</small>
+    </label>
+
+    <div class="actions">
+      <button type="submit" [disabled]="loading()">{{ loading() ? 'Buscando…' : 'Buscar' }}</button>
+      <button
+        type="button"
+        class="secondary"
+        (click)="descargarTxt()"
+        [disabled]="loading() || !registros().length || downloading()"
+      >
+        <span class="spinner" *ngIf="downloading()" aria-hidden="true"></span>
+        {{ downloading() ? 'Descargando…' : 'Descargar TXT del NIT' }}
+      </button>
+    </div>
+  </form>
+
+  <p class="info" *ngIf="loading()">Cargando información…</p>
+  <p class="error" *ngIf="!loading() && error()">{{ error() }}</p>
+
+  <div class="results" *ngIf="!loading() && registros().length">
+    <div class="results__summary">
+      <strong>{{ total() | number }}</strong>
+      <span>registros encontrados para</span>
+      <strong>{{ nitActual() }}</strong>
+      <span>• página {{ page() + 1 }} de {{ totalPages() || 1 }}</span>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th *ngFor="let column of columns">{{ column.label }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of registros(); trackBy: trackById">
+            <td *ngFor="let column of columns">{{ formatValue(item, column) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination">
+      <button type="button" (click)="paginaAnterior()" [disabled]="page() === 0">Anterior</button>
+      <span>Página {{ page() + 1 }} de {{ totalPages() || 1 }}</span>
+      <button type="button" (click)="paginaSiguiente()" [disabled]="page() + 1 >= (totalPages() || 1)">
+        Siguiente
+      </button>
+    </div>
+  </div>
+</section>

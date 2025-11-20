@@ -1,0 +1,30 @@
+*** Begin Patch
+*** Update File: backend/src/main/resources/application.properties
+@@
+ server.port=8080
+ spring.application.name=pagos-radicacion-backend
+ 
+ spring.datasource.url=jdbc:sqlserver://localhost:1433;databaseName=fomagf;encrypt=false;trustServerCertificate=true
+ spring.datasource.username=inicio
+ spring.datasource.password=234010
+ 
++# Explicit driver and dialect for SQL Server
++spring.datasource.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver
++spring.jpa.database-platform=org.hibernate.dialect.SQLServerDialect
++
++# If you are using a named instance (e.g., SQLEXPRESS), comment the URL above and use this instead:
++# spring.datasource.url=jdbc:sqlserver://localhost;instanceName=SQLEXPRESS;databaseName=fomagf;encrypt=false;trustServerCertificate=true
++
+ spring.jpa.hibernate.ddl-auto=none
+ spring.jpa.show-sql=true
+ spring.servlet.multipart.enabled=true
+ spring.servlet.multipart.max-file-size=50MB
+ spring.servlet.multipart.max-request-size=60MB
+ server.tomcat.max-swallow-size=-1
+@@
+ # Remote Pagos API configuration
+ # Base URL of the remote PHP API file (do not remove trailing path)
+ pagos.api.base=http://200.116.57.140:8080/aplicacion/api/api_pagos.php
+ # Bearer token for Authorization header (or set env var PAGOS_API_BEARER)
+ # pagos.api.bearer=
+*** End Patch

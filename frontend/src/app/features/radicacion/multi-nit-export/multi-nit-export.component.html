@@ -1,0 +1,28 @@
+<section class="multi-nit">
+  <header class="multi-nit__header">
+    <h2>Descargar reporte por múltiples NIT</h2>
+    <p>Ingresa uno o varios NIT separados por comas, espacios o saltos de línea. El sistema descargará un único archivo TXT con todos los registros encontrados.</p>
+  </header>
+
+  <form class="multi-nit__form" [formGroup]="form" (ngSubmit)="descargar()" novalidate>
+    <label class="field">
+      <span>NIT (uno por línea, coma o espacio)</span>
+      <textarea
+        rows="6"
+        formControlName="nits"
+        placeholder="Ej. 901234567&#10;800123456"
+      ></textarea>
+      <small class="error" *ngIf="nitsControl.invalid && nitsControl.touched">Ingresa al menos un NIT con 4 caracteres.</small>
+    </label>
+
+    <div class="actions">
+      <button type="submit" [disabled]="downloading()">
+        <span class="spinner" *ngIf="downloading()" aria-hidden="true"></span>
+        {{ downloading() ? 'Generando archivo…' : 'Descargar TXT' }}
+      </button>
+    </div>
+  </form>
+
+  <p class="error" *ngIf="!downloading() && error()">{{ error() }}</p>
+  <p class="success" *ngIf="!downloading() && success()">{{ success() }}</p>
+</section>

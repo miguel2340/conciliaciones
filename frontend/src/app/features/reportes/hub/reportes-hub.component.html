@@ -1,0 +1,34 @@
+﻿<section class="reportes-hub" [attr.aria-busy]="downloading()">
+  <header class="reportes-hub__header">
+    <h2>Descarga de reportes</h2>
+    <p>Selecciona el reporte que deseas descargar.</p>
+  </header>
+
+  <div class="grid">
+    <article class="card">
+      <h3>Reporte por voucher</h3>
+      <p>Agregado por estado/mes/voucher.</p>
+      <button type="button" (click)="descargarVoucher()" [disabled]="downloading()">
+        <span class="spinner" *ngIf="downloading() && downloadingTipo() === 'voucher'"></span>
+        Descargar
+      </button>
+    </article>
+
+    <article class="card">
+      <h3>Reporte gerencial</h3>
+      <p>Consolidado de radicacion_filtrada y _capita.</p>
+      <button type="button" (click)="descargarGerencial()" [disabled]="downloading()">
+        <span class="spinner" *ngIf="downloading() && downloadingTipo() === 'gerencial'"></span>
+        Descargar
+      </button>
+    </article>
+  </div>
+
+  <p class="error" *ngIf="!downloading() && error()">{{ error() }}</p>
+  <p class="success" *ngIf="!downloading() && success()">{{ success() }}</p>
+
+  <div class="loading-overlay" *ngIf="downloading()" aria-live="polite" aria-label="Generando reporte">
+    <div class="overlay-spinner"></div>
+    <p>Generando reporte…</p>
+  </div>
+</section>

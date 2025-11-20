@@ -1,0 +1,57 @@
+<section class="lista-tareas">
+  <header class="header">
+    <h2>Lista de tareas</h2>
+    <div class="hdr-actions">
+      <p class="muted">Resumen rapido de lineas por reporte y descarga en CSV (;)</p>
+      <button type="button" class="secondary" (click)="refreshAll()">Actualizar métricas</button>
+    </div>
+  </header>
+
+  <p class="error" *ngIf="error()">{{ error() }}</p>
+
+  <div class="grid">
+    <article class="card" *ngFor="let r of reports" [attr.aria-busy]="loadingMap()[r.type] ? 'true' : null">
+      <div class="card__hdr">
+        <h3>{{ r.title }}</h3>
+        <span class="badge" [class.ok]="r.badge==='ok'" [class.warn]="r.badge==='warn'" [class.alert]="r.badge==='alert'">
+          {{ r.badge==='ok' ? 'coinciden' : r.badge==='warn' ? 'faltantes' : r.badge==='alert' ? 'alerta' : 'sin registro' }}
+        </span>
+        <span class="spinner" *ngIf="loadingMap()[r.type]"></span>
+      </div>
+      <p class="muted">{{ r.subtitle }}</p>
+
+      <ng-container *ngIf="!loadingMap()[r.type]; else loadingCard">
+        <ng-container *ngIf="metricsOf(r.type) as m; else errorCard">
+          <div class="kpi">{{ (m?.rows || 0) | number }}</div>
+          <ul class="totals">
+            <li><strong>Causado:</strong> $ {{ (m?.causado || 0) | number:'1.0-0' }}</li>
+            <li><strong>Pagado:</strong> $ {{ (m?.pagado || 0) | number:'1.0-0' }}</li>
+            <li><strong>Factura:</strong> $ {{ (m?.factura || 0) | number:'1.0-0' }}</li>
+            <li *ngIf="m?.extra">
+              <span><strong>Vouchers:</strong> {{ m?.extra?.vouchers || 0 | number }}</span>
+              <span style="margin-left: .75rem"><strong>Prestadores:</strong> {{ m?.extra?.prestadores || 0 | number }}</span>
+            </li>
+          </ul>
+        </ng-container>
+        <ng-template #errorCard>
+          <p class="error">No se pudo cargar.
+            <small *ngIf="errorMap()[r.type]"> Ref: {{ errorMap()[r.type] }}</small>
+          </p>
+          <button type="button" class="secondary" (click)="reload(r.type)">Reintentar</button>
+        </ng-template>
+      </ng-container>
+      <ng-template #loadingCard>
+        <div class="skeleton kpi"></div>
+        <div class="skeleton line"></div>
+        <div class="skeleton line"></div>
+        <div class="skeleton line"></div>
+      </ng-template>
+
+      <footer class="card__ftr">
+        <button type="button" (click)="descargarCsv(r.type)" [disabled]="downloadingMap()[r.type] || loadingMap()[r.type]">
+          Descargar CSV (;)
+        </button>
+      </footer>
+    </article>
+  </div>
+</section>

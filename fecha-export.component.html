@@ -1,0 +1,56 @@
+﻿<section class="fecha-export">
+  <header class="fecha-export__header">
+    <h2>Descargar reporte por fecha de radicacion</h2>
+    <p>
+      Genera un archivo TXT del contenido de la tabla radicacion3 filtrando por fecha de radicacion, estados de aplicacion y/o NIT.
+      Todos los filtros son opcionales.
+    </p>
+  </header>
+
+  <form class="fecha-export__form" [formGroup]="form" (ngSubmit)="descargar()" novalidate>
+    <div class="date-range">
+      <label class="field">
+        <span>Fecha inicio</span>
+        <input type="date" formControlName="fechaInicio" />
+      </label>
+
+      <label class="field">
+        <span>Fecha fin</span>
+        <input type="date" formControlName="fechaFin" />
+      </label>
+    </div>
+    <small class="error" *ngIf="rangoFechasInvalido">
+      La fecha fin debe ser mayor o igual a la fecha inicio.
+    </small>
+
+    <label class="field">
+      <span>Estados de aplicacion (opcional)</span>
+      <textarea
+        rows="4"
+        formControlName="estados"
+        placeholder="Ej. APLICADO&#10;GLOSADO"
+      ></textarea>
+      <small class="help">Separa cada estado por coma, punto y coma, salto de linea o barra vertical.</small>
+    </label>
+
+    <label class="field">
+      <span>NIT (opcional)</span>
+      <textarea
+        rows="4"
+        formControlName="nits"
+        placeholder="Ej. 901234567&#10;800123456"
+      ></textarea>
+      <small class="help">Puedes separar NIT por espacios, comas, punto y coma, salto de linea o barra vertical.</small>
+    </label>
+
+    <div class="actions">
+      <button type="submit" [disabled]="downloading()">
+        <span class="spinner" *ngIf="downloading()" aria-hidden="true"></span>
+        {{ downloading() ? 'Generando archivo.' : 'Descargar TXT' }}
+      </button>
+    </div>
+  </form>
+
+  <p class="error" *ngIf="!downloading() && error()">{{ error() }}</p>
+  <p class="success" *ngIf="!downloading() && success()">{{ success() }}</p>
+</section>

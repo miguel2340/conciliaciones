@@ -1,0 +1,21 @@
+<section class="voucher-report" [attr.aria-busy]="downloading()">
+  <header class="voucher-report__header">
+    <h2>Reporte por voucher</h2>
+    <p>Descarga el TXT consolidado con agregados por estado, mes/año de radicación, prestador y voucher.</p>
+  </header>
+
+  <div class="actions">
+    <button type="button" (click)="descargar()" [disabled]="downloading()">
+      <span class="spinner" *ngIf="downloading()" aria-hidden="true"></span>
+      {{ downloading() ? 'Generando archivo.' : 'Descargar reporte' }}
+    </button>
+  </div>
+
+  <p class="error" *ngIf="!downloading() && error()">{{ error() }}</p>
+  <p class="success" *ngIf="!downloading() && success()">{{ success() }}</p>
+
+  <div class="loading-overlay" *ngIf="downloading()" aria-live="polite" aria-label="Generando reporte">
+    <div class="overlay-spinner"></div>
+    <p>Generando reporte…</p>
+  </div>
+</section>

@@ -1,0 +1,35 @@
+<div class="login-page">
+  <div class="bg" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="card">
+    <div class="brand">
+     <div class="logo"> <img src="assets/logo.png" alt="Logo" /> </div>
+      <h2>pagos y radicacion</h2>
+    </div>
+
+    <form class="login" [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+      <label class="field">
+        <span>Correo electrónico</span>
+        <input type="email" formControlName="username" placeholder="tucorreo@empresa.com" />
+        <small class="error" *ngIf="loginForm.get('username')?.hasError('required') && loginForm.get('username')?.touched">El correo es obligatorio.</small>
+        <small class="error" *ngIf="loginForm.get('username')?.hasError('email') && loginForm.get('username')?.touched">Debe tener formato de correo válido.</small>
+      </label>
+
+      <label class="field">
+        <span>Contraseña</span>
+        <input type="password" formControlName="password" placeholder="••••••••" autocomplete="current-password" />
+        <small class="error" *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">La contraseña es obligatoria.</small>
+        <small class="error" *ngIf="loginForm.get('password')?.hasError('minlength') && loginForm.get('password')?.touched">Debe contener al menos 6 caracteres.</small>
+      </label>
+
+      <p class="backend-error" *ngIf="backendError()">{{ backendError() }}</p>
+
+      <button type="submit" [disabled]="loading()">
+        {{ loading() ? 'Accediendo…' : 'Ingresar' }}
+      </button>
+    </form>
+  </div>
+</div>
