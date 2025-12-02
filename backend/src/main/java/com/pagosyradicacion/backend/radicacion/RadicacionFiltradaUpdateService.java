@@ -82,7 +82,7 @@ public class RadicacionFiltradaUpdateService {
         ON (r.modalidad_pago + CAST(r.id AS VARCHAR(50)) + CAST(r.nit AS VARCHAR(50))) =
            (p.modalidad + CAST(p.id AS VARCHAR(50)) + CAST(p.nit AS VARCHAR(50)))
       WHERE r.estado_aplicacion <> 'No Aprobado por Calidad'
-        AND r.estado_aplicacion <> 'En Revisión Calidad'
+        AND r.estado_aplicacion <> 'En Revisi+¦n Calidad'
     """;
 
     int inserted = jdbc.update(sql);
