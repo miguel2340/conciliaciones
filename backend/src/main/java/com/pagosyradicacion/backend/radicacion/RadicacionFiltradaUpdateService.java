@@ -16,7 +16,7 @@ public class RadicacionFiltradaUpdateService {
 
   @Transactional
   public Map<String, Object> actualizar() {
-    jdbc.update("DELETE FROM dbo.radicacion_filtrada");
+    jdbc.update("TRUNCATE TABLE dbo.radicacion_filtrada");
 
     String sql = """
       INSERT INTO dbo.radicacion_filtrada (
@@ -26,7 +26,7 @@ public class RadicacionFiltradaUpdateService {
         valor_levantado_primera_respuesta, valor_ratificado_primera_respuesta, valor_aceptado_segunda_respuesta,
         valor_levantado_segunda_respuesta, valor_ratificado_segunda_respuesta, valor_aceptado_conciliacion,
         valor_levantado_conciliacion, valor_ratificado_conciliacion, Valor_actual_aceptado, valor_actual_reconocido,
-        valor_final_ratificado, valor_pagado, porcentaje_pago, estado, voucher, feccha_pago, id_fomag
+        valor_final_ratificado, valor_pagado, porcentaje_pago, estado, voucher, feccha_pago, id_fomag,procedencia
       )
       SELECT
         r.id,
@@ -76,7 +76,8 @@ public class RadicacionFiltradaUpdateService {
         p.estado,
         p.voucher,
         p.feccha_pago,
-        p.id_fomag
+        p.id_fomag,
+		r.procedencia
       FROM dbo.radicacion3 r
       LEFT JOIN dbo.pagos p
         ON (r.modalidad_pago + CAST(r.id AS VARCHAR(50)) + CAST(r.nit AS VARCHAR(50))) =
