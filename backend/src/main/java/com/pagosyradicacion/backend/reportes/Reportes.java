@@ -47,8 +47,7 @@ class ReporteService {
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 0 AND 30 THEN '0 a 30 días'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 31 AND 45 THEN '31 a 45 días'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 46 AND 60 THEN '46 a 60 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 61 AND 90 THEN '61 a 90 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 91 AND 120 THEN '91 a 120 días'
+          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 91 AND 120 THEN '91 a 120 d?as'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 121 AND 150 THEN '121 a 150 días'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 151 AND 180 THEN '151 a 180 días'
           ELSE 'Mayor a 180 días'
@@ -71,8 +70,7 @@ class ReporteService {
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 0 AND 30 THEN '0 a 30 días'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 31 AND 45 THEN '31 a 45 días'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 46 AND 60 THEN '46 a 60 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 61 AND 90 THEN '61 a 90 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 91 AND 120 THEN '91 a 120 días'
+          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 91 AND 120 THEN '91 a 120 d?as'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 121 AND 150 THEN '121 a 150 días'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 151 AND 180 THEN '151 a 180 días'
           ELSE 'Mayor a 180 días'
@@ -131,8 +129,7 @@ class ReporteService {
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 0 AND 30 THEN '0 a 30 días'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 31 AND 45 THEN '31 a 45 días'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 46 AND 60 THEN '46 a 60 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 61 AND 90 THEN '61 a 90 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 91 AND 120 THEN '91 a 120 días'
+          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 91 AND 120 THEN '91 a 120 d?as'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 121 AND 150 THEN '121 a 150 días'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 151 AND 180 THEN '151 a 180 días'
           ELSE 'Mayor a 180 días'
@@ -172,8 +169,7 @@ class ReporteService {
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 0 AND 30 THEN '0 a 30 días'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 31 AND 45 THEN '31 a 45 días'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 46 AND 60 THEN '46 a 60 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 61 AND 90 THEN '61 a 90 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 91 AND 120 THEN '91 a 120 días'
+          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 91 AND 120 THEN '91 a 120 d?as'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 121 AND 150 THEN '121 a 150 días'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 151 AND 180 THEN '151 a 180 días'
           ELSE 'Mayor a 180 días'
@@ -200,8 +196,7 @@ class ReporteService {
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 31 AND 45 THEN '31 a 45 días'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 46 AND 60 THEN '46 a 60 días'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 61 AND 90 THEN '61 a 90 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, G
-          ETDATE()) BETWEEN 91 AND 120 THEN '91 a 120 días'
+          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 91 AND 120 THEN '91 a 120 d?as'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 121 AND 150 THEN '121 a 150 días'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 151 AND 180 THEN '151 a 180 días'
           ELSE 'Mayor a 180 días'
@@ -240,8 +235,7 @@ class ReporteService {
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 0 AND 30 THEN '0 a 30 días'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 31 AND 45 THEN '31 a 45 días'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 46 AND 60 THEN '46 a 60 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 61 AND 90 THEN '61 a 90 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 91 AND 120 THEN '91 a 120 días'
+          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 91 AND 120 THEN '91 a 120 d?as'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 121 AND 150 THEN '121 a 150 días'
           WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 151 AND 180 THEN '151 a 180 días'
           ELSE 'Mayor a 180 días'
@@ -310,6 +304,7 @@ class ReporteService {
         safe(rs.getString("modalidad_factura")),
         safe(rs.getString("mes_anio_factura")),
         safe(rs.getString("rango_dias")),
+        safe(rs.getString("Cantidad_facturas")),
         safe(rs.getString("valor_facturado")),
         safe(rs.getString("valor_pagado")),
         safe(rs.getString("valor_iva")),
