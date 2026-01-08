@@ -114,73 +114,9 @@ class ReporteService {
       "iddyg_minimo_mes"
   };
 
-  private static final String GERENCIAL_SQL_1 = """
-      SELECT 
-        estado_aplicacion,
-        FORMAT(fecha_radicacion, 'MMMM/yyyy', 'es-ES') AS mes_anio_radicado,
-        tipo_red,
-        nit,
-        nom_prestador,
-        departamento,
-        modalidad_pago,
-        modalidad_Factura AS modalidad_factura,
-        FORMAT(fecha_factura, 'MMMM/yyyy', 'es-ES') AS mes_anio_factura,
-        CASE
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 0 AND 30 THEN '0 a 30 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 31 AND 45 THEN '31 a 45 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 46 AND 60 THEN '46 a 60 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 91 AND 120 THEN '91 a 120 d?as'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 121 AND 150 THEN '121 a 150 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 151 AND 180 THEN '151 a 180 días'
-          ELSE 'Mayor a 180 días'
-        END AS rango_dias,
-        COUNT(*) AS Cantidad_facturas,
-        SUM(valor_factura) AS valor_facturado,
-        SUM(valor_pagado) AS valor_pagado,
-        SUM(valor_iva) AS valor_iva,
-        SUM(valor_glosa_inicial) AS valor_glosa_inicial,
-        SUM(valor_no_glosado_inicial) AS valor_no_glosado_inicial,
-        SUM(valor_aceptado_primera_respuesta) AS valor_aceptado_primera_respuesta,
-        SUM(valor_levantado_primera_respuesta) AS valor_levantado_primera_respuesta,
-        SUM(valor_ratificado_primera_respuesta) AS valor_ratificado_primera_respuesta,
-        SUM(valor_aceptado_segunda_respuesta) AS valor_aceptado_segunda_respuesta,
-        SUM(valor_levantado_segunda_respuesta) AS valor_levantado_segunda_respuesta,
-        SUM(valor_ratificado_segunda_respuesta) AS valor_ratificado_segunda_respuesta,
-        SUM(valor_aceptado_conciliacion) AS valor_aceptado_conciliacion,
-        SUM(valor_levantado_conciliacion) AS valor_levantado_conciliacion,
-        SUM(valor_ratificado_conciliacion) AS valor_ratificado_conciliacion,
-        SUM(Valor_actual_aceptado) AS valor_actual_aceptado,
-        SUM(valor_actual_reconocido) AS valor_actual_reconocido,
-        SUM(valor_final_ratificado) AS valor_actual_ratificado,
-        MIN(id) AS iddyg_minimo_mes
-      FROM fomagf.dbo.radicacion_filtrada
-      WHERE  estado_aplicacion NOT IN ('No Aprobado por Calidad', 'En Revisión Calidad')
-      GROUP BY
-        estado_aplicacion,
-        FORMAT(fecha_radicacion, 'MMMM/yyyy', 'es-ES'),
-        tipo_red,
-        nit,
-        nom_prestador,
-        departamento,
-        modalidad_pago,
-        modalidad_Factura,
-        FORMAT(fecha_factura, 'MMMM/yyyy', 'es-ES'),
-        CASE
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 0 AND 30 THEN '0 a 30 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 31 AND 45 THEN '31 a 45 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 46 AND 60 THEN '46 a 60 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 91 AND 120 THEN '91 a 120 d?as'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 121 AND 150 THEN '121 a 150 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 151 AND 180 THEN '151 a 180 días'
-          ELSE 'Mayor a 180 días'
-        END
-      ORDER BY
-        nit ASC,
-        nom_prestador ASC,
-        departamento ASC
-      """;
 
-  private static final String GERENCIAL_SQL_2 = """
+private static final String GERENCIAL_SQL_1 = """
+    WITH base AS (
       SELECT 
         estado_aplicacion,
         FORMAT(fecha_radicacion, 'MMMM/yyyy', 'es-ES') AS mes_anio_radicado,
@@ -191,60 +127,172 @@ class ReporteService {
         modalidad_pago,
         modalidad_Factura AS modalidad_factura,
         FORMAT(fecha_factura, 'MMMM/yyyy', 'es-ES') AS mes_anio_factura,
-        CASE
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 0 AND 30 THEN '0 a 30 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 31 AND 45 THEN '31 a 45 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 46 AND 60 THEN '46 a 60 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 61 AND 90 THEN '61 a 90 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 91 AND 120 THEN '91 a 120 d?as'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 121 AND 150 THEN '121 a 150 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 151 AND 180 THEN '151 a 180 días'
-          ELSE 'Mayor a 180 días'
-        END AS rango_dias,
-        count(*) AS Cantidad_facturas,
-        SUM(valor_factura) AS valor_facturado,
-        SUM(valor_pagado) AS valor_pagado,
-        SUM(valor_iva) AS valor_iva,
-        SUM(valor_glosa_inicial) AS valor_glosa_inicial,
-        SUM(valor_no_glosado_inicial) AS valor_no_glosado_inicial,
-        SUM(valor_aceptado_primera_respuesta) AS valor_aceptado_primera_respuesta,
-        SUM(valor_levantado_primera_respuesta) AS valor_levantado_primera_respuesta,
-        SUM(valor_ratificado_primera_respuesta) AS valor_ratificado_primera_respuesta,
-        SUM(valor_aceptado_segunda_respuesta) AS valor_aceptado_segunda_respuesta,
-        SUM(valor_levantado_segunda_respuesta) AS valor_levantado_segunda_respuesta,
-        SUM(valor_ratificado_segunda_respuesta) AS valor_ratificado_segunda_respuesta,
-        SUM(valor_aceptado_conciliacion) AS valor_aceptado_conciliacion,
-        SUM(valor_levantado_conciliacion) AS valor_levantado_conciliacion,
-        SUM(valor_ratificado_conciliacion) AS valor_ratificado_conciliacion,
-        SUM(Valor_actual_aceptado) AS valor_actual_aceptado,
-        SUM(valor_actual_reconocido) AS valor_actual_reconocido,
-        SUM(valor_final_ratificado) AS valor_actual_ratificado,
-        MIN(id) AS iddyg_minimo_mes
-      FROM fomagf.dbo.radicacion_filtrada_capita
-      GROUP BY
+      CASE
+        WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 0 AND 30 THEN '0 a 30 dias'
+        WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 31 AND 45 THEN '31 a 45 dias'
+        WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 46 AND 60 THEN '46 a 60 dias'
+        WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 61 AND 90 THEN '61 a 90 dias'
+        WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 91 AND 120 THEN '91 a 120 dias'
+        WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 121 AND 150 THEN '121 a 150 dias'
+        WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 151 AND 180 THEN '151 a 180 dias'
+        ELSE 'Mayor a 180 dias'
+      END AS rango_dias,
+        valor_factura,
+        valor_pagado,
+        valor_iva,
+        valor_glosa_inicial,
+        valor_no_glosado_inicial,
+        valor_aceptado_primera_respuesta,
+        valor_levantado_primera_respuesta,
+        valor_ratificado_primera_respuesta,
+        valor_aceptado_segunda_respuesta,
+        valor_levantado_segunda_respuesta,
+        valor_ratificado_segunda_respuesta,
+        Valor_actual_aceptado,
+        valor_actual_reconocido,
+        valor_final_ratificado,
+        id
+      FROM fomagf.dbo.radicacion_filtrada
+      WHERE  estado_aplicacion NOT IN ('No Aprobado por Calidad', 'En Revisi?n Calidad')
+    )
+    SELECT 
+      estado_aplicacion,
+      mes_anio_radicado,
+      tipo_red,
+      nit,
+      nom_prestador,
+      departamento,
+      modalidad_pago,
+      modalidad_factura,
+      mes_anio_factura,
+      rango_dias,
+      COUNT(*) AS Cantidad_facturas,
+      SUM(valor_factura) AS valor_facturado,
+      SUM(valor_pagado) AS valor_pagado,
+      SUM(valor_iva) AS valor_iva,
+      SUM(valor_glosa_inicial) AS valor_glosa_inicial,
+      SUM(valor_no_glosado_inicial) AS valor_no_glosado_inicial,
+      SUM(valor_aceptado_primera_respuesta) AS valor_aceptado_primera_respuesta,
+      SUM(valor_levantado_primera_respuesta) AS valor_levantado_primera_respuesta,
+      SUM(valor_ratificado_primera_respuesta) AS valor_ratificado_primera_respuesta,
+      SUM(valor_aceptado_segunda_respuesta) AS valor_aceptado_segunda_respuesta,
+      SUM(valor_levantado_segunda_respuesta) AS valor_levantado_segunda_respuesta,
+      SUM(valor_ratificado_segunda_respuesta) AS valor_ratificado_segunda_respuesta,
+      SUM(valor_aceptado_conciliacion) AS valor_aceptado_conciliacion,
+      SUM(valor_levantado_conciliacion) AS valor_levantado_conciliacion,
+      SUM(valor_ratificado_conciliacion) AS valor_ratificado_conciliacion,
+      SUM(Valor_actual_aceptado) AS valor_actual_aceptado,
+      SUM(valor_actual_reconocido) AS valor_actual_reconocido,
+      SUM(valor_final_ratificado) AS valor_actual_ratificado,
+      MIN(id) AS iddyg_minimo_mes
+    FROM base
+    GROUP BY
+      estado_aplicacion,
+      mes_anio_radicado,
+      tipo_red,
+      nit,
+      nom_prestador,
+      departamento,
+      modalidad_pago,
+      modalidad_factura,
+      mes_anio_factura,
+      rango_dias
+    ORDER BY
+      nit ASC,
+      nom_prestador ASC,
+      departamento ASC
+    """;
+
+
+private static final String GERENCIAL_SQL_2 = """
+    WITH base AS (
+      SELECT 
         estado_aplicacion,
-        FORMAT(fecha_radicacion, 'MMMM/yyyy', 'es-ES'),
+        FORMAT(fecha_radicacion, 'MMMM/yyyy', 'es-ES') AS mes_anio_radicado,
         tipo_red,
         nit,
         nom_prestador,
         departamento,
         modalidad_pago,
-        modalidad_Factura,
-        FORMAT(fecha_factura, 'MMMM/yyyy', 'es-ES'),
-        CASE
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 0 AND 30 THEN '0 a 30 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 31 AND 45 THEN '31 a 45 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 46 AND 60 THEN '46 a 60 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 91 AND 120 THEN '91 a 120 d?as'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 121 AND 150 THEN '121 a 150 días'
-          WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 151 AND 180 THEN '151 a 180 días'
-          ELSE 'Mayor a 180 días'
-        END
-      ORDER BY
-        nit ASC,
-        nom_prestador ASC,
-        departamento ASC
-      """;
+        modalidad_Factura AS modalidad_factura,
+        FORMAT(fecha_factura, 'MMMM/yyyy', 'es-ES') AS mes_anio_factura,
+      CASE
+        WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 0 AND 30 THEN '0 a 30 dias'
+        WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 31 AND 45 THEN '31 a 45 dias'
+        WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 46 AND 60 THEN '46 a 60 dias'
+        WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 61 AND 90 THEN '61 a 90 dias'
+        WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 91 AND 120 THEN '91 a 120 dias'
+        WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 121 AND 150 THEN '121 a 150 dias'
+        WHEN DATEDIFF(DAY, fecha_radicacion, GETDATE()) BETWEEN 151 AND 180 THEN '151 a 180 dias'
+        ELSE 'Mayor a 180 dias'
+      END AS rango_dias,
+        valor_factura,
+        valor_pagado,
+        valor_iva,
+        valor_glosa_inicial,
+        valor_no_glosado_inicial,
+        valor_aceptado_primera_respuesta,
+        valor_levantado_primera_respuesta,
+        valor_ratificado_primera_respuesta,
+        valor_aceptado_segunda_respuesta,
+        valor_levantado_segunda_respuesta,
+        valor_ratificado_segunda_respuesta,
+        valor_aceptado_conciliacion,
+        valor_levantado_conciliacion,
+        valor_ratificado_conciliacion,
+        Valor_actual_aceptado,
+        valor_actual_reconocido,
+        valor_final_ratificado,
+        id
+      FROM fomagf.dbo.radicacion_filtrada_capita
+    )
+    SELECT 
+      estado_aplicacion,
+      mes_anio_radicado,
+      tipo_red,
+      nit,
+      nom_prestador,
+      departamento,
+      modalidad_pago,
+      modalidad_factura,
+      mes_anio_factura,
+      rango_dias,
+      COUNT(*) AS Cantidad_facturas,
+      SUM(valor_factura) AS valor_facturado,
+      SUM(valor_pagado) AS valor_pagado,
+      SUM(valor_iva) AS valor_iva,
+      SUM(valor_glosa_inicial) AS valor_glosa_inicial,
+      SUM(valor_no_glosado_inicial) AS valor_no_glosado_inicial,
+      SUM(valor_aceptado_primera_respuesta) AS valor_aceptado_primera_respuesta,
+      SUM(valor_levantado_primera_respuesta) AS valor_levantado_primera_respuesta,
+      SUM(valor_ratificado_primera_respuesta) AS valor_ratificado_primera_respuesta,
+      SUM(valor_aceptado_segunda_respuesta) AS valor_aceptado_segunda_respuesta,
+      SUM(valor_levantado_segunda_respuesta) AS valor_levantado_segunda_respuesta,
+      SUM(valor_ratificado_segunda_respuesta) AS valor_ratificado_segunda_respuesta,
+      SUM(valor_aceptado_conciliacion) AS valor_aceptado_conciliacion,
+      SUM(valor_levantado_conciliacion) AS valor_levantado_conciliacion,
+      SUM(valor_ratificado_conciliacion) AS valor_ratificado_conciliacion,
+      SUM(Valor_actual_aceptado) AS valor_actual_aceptado,
+      SUM(valor_actual_reconocido) AS valor_actual_reconocido,
+      SUM(valor_final_ratificado) AS valor_actual_ratificado,
+      MIN(id) AS iddyg_minimo_mes
+    FROM base
+    GROUP BY
+      estado_aplicacion,
+      mes_anio_radicado,
+      tipo_red,
+      nit,
+      nom_prestador,
+      departamento,
+      modalidad_pago,
+      modalidad_factura,
+      mes_anio_factura,
+      rango_dias
+    ORDER BY
+      nit ASC,
+      nom_prestador ASC,
+      departamento ASC
+    """;
 
   private final JdbcTemplate jdbcTemplate;
 
